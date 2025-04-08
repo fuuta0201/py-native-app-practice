@@ -1,41 +1,28 @@
 import flet as ft
+from weather_scraper import get_today_weather
 
 
 def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0)
+    result = ft.Text(value="天気を取得してください", size=30)
 
-    def increment_click(e):
-        counter.data += 1
-        counter.value = str(counter.data)
-        counter.update()
+    def on_click(e):
+        result.value = "取得中..."
+        page.update()
 
-    def decrement_click(e):
-        counter.data -= 1
-        counter.value = str(counter.data)
-        counter.update()
-        print(e)
+        weather = get_today_weather()
+        result.value = f"今日の天気: {weather}"
+        page.update()
+
+    get_button = ft.ElevatedButton(text="今日の天気を調べる", on_click=on_click)
 
     page.add(
-        ft.SafeArea(
-            ft.Column(
-                [
-                    ft.Row(
-                        [
-                            ft.FloatingActionButton(
-                                icon=ft.Icons.REMOVE, on_click=decrement_click),
-                            counter,
-                            ft.FloatingActionButton(
-                                icon=ft.Icons.ADD, on_click=increment_click),
-                        ],
-                        alignment=ft.MainAxisAlignment.CENTER,
-                    )
-                ],
-                alignment=ft.MainAxisAlignment.CENTER,  # 縦方向中央
-                horizontal_alignment=ft.CrossAxisAlignment.CENTER,  # 横方向中央
-                expand=True
-            )
+        ft.Column(
+            [result, get_button],
+            alignment=ft.MainAxisAlignment.CENTER,
+            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            expand=True
         )
     )
 
 
-ft.app(main)
+ft.app(target=main)

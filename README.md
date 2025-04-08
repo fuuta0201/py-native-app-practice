@@ -2,6 +2,12 @@
 
 ## venv
 
+### create venv
+
+```
+python3.12 -m venv myenv
+```
+
 ### activate
 
 ```
@@ -17,6 +23,14 @@ deactivate
 
 ## libraries
 
+### install
+
 ```
 pip install -r requirements.txt
+```
+
+### update requirements.txt
+
+```
+pip freeze > requirements.txt
 ```
